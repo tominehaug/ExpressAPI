@@ -57,7 +57,7 @@ cd ExpressAPI
 npm install
 ```
 
-3. Create a MySQL database with `users` and `articles` tables:
+3. Create a MySQL database with `users` and `articles` tables like this (or refer to blog_database.sql):
 
 ```sql
    CREATE DATABASE blog;
