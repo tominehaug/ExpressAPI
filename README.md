@@ -1,29 +1,37 @@
 # ExpressAPI
 
-Project for course in development platforms.
+Project for Development Platforms-course (4th semester). Introduction to backend-development.
 
 ## Description
 
-For this project I created a MySQL database and this REST API with Express to use with it. The database supports a blog application, where users can view other users' articles as well as register and post their own articles. The following endpoints are supported in the API:
+A REST API built with Express for a MySQL-backed blog application. Users can register, log in, read all articles and post their own.
+The following endpoints are supported in the API:
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
 | POST | `/auth/register` | Register a new user (`email`, `password`) |
-| POST | `/auth/login` | [Log in with existing user and receive a JWT] |
+| POST | `/auth/login` | Log in with existing user and receive a JWT |
 | GET | `/articles` | View all articles (public access) |
 | POST | `/articles` | Post new article (protected, requires JWT) |
 
 ## Technologies and features
 
+**Stack**
+- Node.js
+- Express (with Express Router)
 - TypeScript
 - MySQL
-- Express Router
-- Bcrypt (password hashing)
-- Json Web Token
-- Cors
-- Zod
-- Validation Middleware
+
+**Authentication and security**
+- Password hashing with bcrypt
+- JWT-authentication
+- CORS
+
+**Validation and error handling**
+- Request validation with Zod and validation middleware
 - Error handling
+
+**Tooling**
 - ESLint
 - Prettier
 
@@ -42,7 +50,6 @@ For this project I created a MySQL database and this REST API with Express to us
 git clone https://github.com/tominehaug/ExpressAPI.git
 cd ExpressAPI
 ```
-Run this command in the terminal.
 
 2. Install the dependencies:
 
@@ -56,14 +63,25 @@ npm install
    CREATE DATABASE blog;
    USE blog;
    CREATE TABLE users (
+     id INT PRIMARY KEY AUTO_INCREMENT,
+     email VARCHAR(255) NOT NULL UNIQUE KEY,
+     password_hash VARCHAR(255) NOT NULL,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    );
    CREATE TABLE articles (
+     id INT PRIMARY KEY AUTO_INCREMENT,
+     title VARCHAR(200) NOT NULL,
+     body TEXT,
+     category VARCHAR(200),
+     submitted_by INT NOT NULL,
+     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     FOREIGN KEY (submitted_by) REFERENCES users(id)
    );
 ```
 
-4. Copy `.env.example` to `.env` and fill in your own values (see below).
+4. Create an `.env` and fill in your own values (see Environment Variables).
 
-## Environment variables
+### Environment variables
 
 | Variable | Description | Example |
 | --- | --- | --- |
